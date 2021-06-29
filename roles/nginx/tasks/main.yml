@@ -1,0 +1,24 @@
+- name: "Install ngnix via apt"
+  ansible.builtin.apt:
+    name: "nginx"
+    state: "latest"
+    update_cache: true
+
+- name: "Delete /var/www/html folder"
+  ansible.builtin.file:
+    path: "/var/www/html"
+    state: "absent"
+
+- name: "Copy our landing to /var/www/html folder"
+  ansible.builtin.copy:
+    src: "files/html"
+    dest: "/var/www/"
+    owner: "vagrant"
+    group: "vagrant"
+    mode: "0644"
+
+- name: "Create link for nginx config"
+  ansible.builtin.file:
+  src: "/etc/nginx/sites-available/php_test.conf"
+  dest: "/etc/nginx/sites-enabled/php_test"
+  state: "link"

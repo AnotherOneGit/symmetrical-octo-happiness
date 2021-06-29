@@ -1,0 +1,26 @@
+- name: "Installing php_fpm and php_mysql"
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: "latest"
+    update_cache: true
+  with_items:
+    - "php-fpm"
+    - "php-mysql"
+
+- name: "Copy php files to /var/www folder"
+  ansible.builtin.copy:
+    src: "files/test-php/php-test"
+    dest: "/var/www/"
+    owner: "vagrant"
+    group: "vagrant"
+    mode: "0644"
+
+- name: "Copy nginx config for php testing"
+  ansible.builtin.copy:
+    src: "files/test-php/nginx.conf"
+    dest: "/etc/nginx/sites-available/php_test.conf"
+    owner: "vagrant"
+    group: "vagrant"
+    mode: "0644"
+
+ 
